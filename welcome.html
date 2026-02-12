@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NeuroVerse Access Portal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0f172a;
+}
+
+.portal {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    border-radius: 18px;
+    padding: 50px 45px;
+    width: 400px;
+    text-align: center;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    box-shadow: 0 20px 40px rgba(56, 189, 248, 0.25);
+}
+
+h1 {
+    font-size: 26px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: #0369a1;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 35px;
+}
+
+.access-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 18px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    text-decoration: none;
+}
+
+.admin {
+    background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+    color: #0c4a6e;
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+}
+
+.student {
+    background: linear-gradient(135deg, #a5f3fc, #67e8f9);
+    color: #164e63;
+    box-shadow: 0 0 25px rgba(34, 211, 238, 0.45);
+}
+
+.access-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.6);
+}
+
+.footer {
+    margin-top: 35px;
+    font-size: 11px;
+    color: #64748b;
+    letter-spacing: 1px;
+}
+</style>
+</head>
+<body>
+
+<div class="portal">
+    <h1>NEUROVERSE</h1>
+    <div class="subtitle">Choose your access mode</div>
+
+    <a href="/admin/login" class="access-btn admin">ADMIN ACCESS</a>
+    <a href="/user/login" class="access-btn student">STUDENT ACCESS</a>
+
+    <div class="footer">Academic Evaluation System</div>
+</div>
+
+</body>
+</html>

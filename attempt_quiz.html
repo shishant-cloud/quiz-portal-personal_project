@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Paper</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #ecfeff; padding: 40px; }
+        .paper { max-width: 800px; margin: auto; background: white; padding: 50px; border-radius: 25px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .flash-msg { padding: 15px; margin-bottom: 20px; border-radius: 8px; color: #155724; background: #d4edda; border: 1px solid #c3e6cb; text-align: center; }
+        .question-container { margin-bottom: 30px; padding: 20px; background: #f8fafc; border-radius: 12px; }
+        .submit-btn { background: #22d3ee; color: white; padding: 15px 40px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="paper">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}{% for message in messages %}<div class="flash-msg">{{ message }}</div>{% endfor %}{% endif %}
+        {% endwith %}
+
+        <h1>{{ quiz['title'] }}</h1>
+        <hr>
+
+  <form action="/quiz/submit/{{ quiz['id'] }}" method="POST">
+    {% for item in quiz_data %}
+    <div class="question-container">
+        <p><strong>{{ loop.index }}. {{ item.question.question_text }} ({{ item.question.marks }} Marks)</strong></p>
+        
+        {% if item.question.question_type == 'MCQ' %}
+            <div class="mcq-options">
+                {% for opt in item.options %}
+                <label style="display: block; margin: 10px 0; cursor: pointer;">
+                    <input type="radio" name="ans_{{ item.question.id }}" value="{{ loop.index0 | string_to_char }}" required>
+                    {{ opt.option_text }}
+                </label>
+                {% endfor %}
+            </div>
+        {% else %}
+            <textarea name="ans_{{ item.question.id }}" rows="4" placeholder="Type your answer..."></textarea>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="submit-btn">SUBMIT TEST</button>
+</form>
+    </div>
+</body>
+</html>

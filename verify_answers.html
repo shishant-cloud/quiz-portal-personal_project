@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detailed Paper Review</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; padding: 40px; }
+        .paper { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header-box { background: #f0f9ff; padding: 25px; border-radius: 12px; margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border: 1px solid #e0f2fe; }
+        .header-item label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .header-item p { margin: 5px 0 0 0; font-size: 16px; font-weight: 600; color: #0369a1; }
+        .q-row { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .ans-box { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 10px; border-left: 4px solid #38bdf8; }
+    </style>
+</head>
+<body>
+    <div class="paper">
+        <div class="header-box">
+            <div class="header-item"><label>Student Name</label><p>{{ student_name }}</p></div>
+            <div class="header-item"><label>Quiz Title</label><p>{{ quiz_title }}</p></div>
+            <div class="header-item" style="grid-column: span 2;"><label>Submitted On</label><p>{{ submission_time }}</p></div>
+        </div>
+        {% for item in full_paper %}
+        <div class="q-row">
+            <p><strong>#{{ loop.index }} {{ item.question_text }}</strong></p>
+            <div class="ans-box"><p style="margin:0; font-size:14px; color:#475569;">{{ item.answer }}</p></div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

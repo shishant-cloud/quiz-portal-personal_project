@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher - Create Dynamic Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #f0f9ff; padding: 40px; color: #1e293b; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
+        h1 { color: #0369a1; border-bottom: 2px solid #e0f2fe; padding-bottom: 10px; font-weight: 700; }
+        .q-block { background: #f8fafc; padding: 25px; border-left: 6px solid #38bdf8; margin-bottom: 25px; border-radius: 12px; position: relative; }
+        label { font-weight: 600; font-size: 14px; color: #475569; display: block; margin-top: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #cbd5e1; box-sizing: border-box; font-family: inherit; }
+        .option-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .option-row span { font-weight: 700; color: #0ea5e9; width: 25px; }
+        .add-btn { background: #0369a1; color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; margin: 10px 0; font-weight: 600; transition: 0.2s; }
+        .add-btn:hover { background: #0ea5e9; }
+        .publish-btn { background: linear-gradient(135deg, #38bdf8, #2563eb); color: white; border: none; padding: 20px; width: 100%; border-radius: 15px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 30px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Assessment Architect</h1>
+        <p style="color: #64748b;">Design your questions and set weights for each.</p>
+        
+        <form action="/admin/publish_quiz" method="POST">
+            <label>Quiz Title</label>
+            <input type="text" name="quiz_title" placeholder="e.g., Computer Networks Midterm" required>
+            
+            <div id="questionsContainer"></div>
+
+            <button type="button" class="add-btn" onclick="addQuestion()">+ Add New Question</button>
+            <button type="submit" class="publish-btn">PUBLISH ASSESSMENT</button>
+        </form>
+    </div>
+
+    <script>
+        let qCount = 0;
+        const indexLabels = ['a', 'b', 'c', 'd'];
+
+        function addQuestion() {
+            qCount++;
+            const container = document.getElementById('questionsContainer');
+            const qDiv = document.createElement('div');
+            qDiv.className = "q-block";
+            qDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin:0; color:#0369a1;">Question ${qCount}</h3>
+                </div>
+
+                <label>Question Statement</label>
+                <input type="text" name="q_text[]" placeholder="What is the capital of..." required>
+                
+                <div style="display: flex; gap: 15px;">
+                    <div style="flex: 2;">
+                        <label>Response Type</label>
+                        <select name="q_type[]" onchange="handleTypeChange(this, ${qCount})">
+                            <option value="MCQ">Multiple Choice (Options a-d)</option>
+                            <option value="TEXT">Short Answer (Descriptive)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Weight (Marks)</label>
+                        <input type="number" name="q_marks[]" value="1" min="1" required>
+                    </div>
+                </div>
+                
+                <div id="options_root_${qCount}">
+                    <label>Manage Options</label>
+                    <div id="options_list_${qCount}">
+                        <div class="option-row"><span>a)</span><input type="text" name="q_options_${qCount}[]" placeholder="Choice A" required></div>
+                    </div>
+                    <button type="button" class="add-btn" style="padding: 5px 12px; font-size: 11px; background: #0ea5e9;" onclick="addOptionField(${qCount})">+ Add Another Choice</button>
+                </div>
+                
+                <div id="answer_key_container_${qCount}">
+                    <label id="ans_label_${qCount}">Correct Index (a, b, c, or d)</label>
+                    <input type="text" name="q_ans[]" id="ans_input_${qCount}" placeholder="e.g., a" required>
+                </div>
+            `;
+            container.appendChild(qDiv);
+        }
+
+        function addOptionField(qId) {
+            const list = document.getElementById(`options_list_${qId}`);
+            const currentCount = list.children.length;
+            if (currentCount < 4) {
+                const div = document.createElement('div');
+                div.className = "option-row";
+                div.innerHTML = `<span>${indexLabels[currentCount]})</span><input type="text" name="q_options_${qId}[]" placeholder="Choice ${indexLabels[currentCount].toUpperCase()}" required>`;
+                list.appendChild(div);
+            } else {
+                alert("Maximum 4 options allowed for standard indexing.");
+            }
+        }
+
+        function handleTypeChange(select, qId) {
+            const optionsRoot = document.getElementById(`options_root_${qId}`);
+            const ansLabel = document.getElementById(`ans_label_${qId}`);
+            const ansInput = document.getElementById(`ans_input_${qId}`);
+
+            if (select.value === "MCQ") {
+                optionsRoot.style.display = "block";
+                ansLabel.innerText = "Correct Index (a, b, c, or d)";
+                ansInput.placeholder = "e.g., a";
+            } else {
+                // Hide options for Descriptive questions
+                optionsRoot.style.display = "none";
+                ansLabel.innerText = "Correct Keyword/Answer (Optional for reference)";
+                ansInput.placeholder = "Enter the expected key phrase";
+                
+                // Remove 'required' from hidden MCQ options to allow form submission
+                const hiddenInputs = optionsRoot.querySelectorAll('input');
+                hiddenInputs.forEach(input => input.removeAttribute('required'));
+            }
+        }
+    </script>
+</body>
+</html>

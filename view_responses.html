@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Review Submissions</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 40px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 15px; background: #f1f5f9; color: #475569; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
+        .action-btn { background: #0ea5e9; color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/admin/dashboard" style="text-decoration: none; color: #64748b;">← Back</a>
+        <h1>Submissions for: {{ quiz_title }}</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Score</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in responses %}
+                <tr>
+                    <td>#{{ loop.index }}</td>
+                    <td><strong>{{ res.score }} / {{ res.total_marks }}</strong></td>
+                    <a href="/admin/verify_answers/{{ res.id }}" class="action-btn">View Full Paper</a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

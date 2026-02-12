@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Signup</title>
+    <style>
+        body { margin: 0; min-height: 100vh; font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #ecfeff, #f0f9ff); display: flex; justify-content: center; align-items: center; padding: 40px; }
+        .container { width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(16px); border-radius: 20px; padding: 45px 38px; border: 1px solid rgba(103, 232, 249, 0.45); }
+        input { width: 100%; padding: 12px 14px; margin-bottom: 18px; border-radius: 12px; border: 1px solid #cbd5e1; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; border-radius: 14px; border: none; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, #67e8f9, #22d3ee); color: #164e63; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: red; font-size: 12px; text-align: center;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+    <h1>Student Signup</h1>
+    <form action="/user/signup" method="POST">
+        <label>Full Name</label>
+        <input type="text" name="username" placeholder="Enter username" required>
+
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="student@example.com" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Create password" required>
+
+        <button type="submit">Register Now</button>
+    </form>
+    <div style="margin-top: 22px; text-align: center; font-size: 13px;">
+        Already registered? <a href="/user/login" style="color: #0891b2; font-weight: 600; text-decoration: none;">Login</a>
+    </div>
+</div>
+</body>
+</html>
